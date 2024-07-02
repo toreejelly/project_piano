@@ -15,17 +15,17 @@
 	//삭제
 	function contentDetele() {
 		
-		let boardId = $("#boardId").val();          
+		let boardSeq = $("#boardSeq").val();          
 		
 		var data = {
-				  boardId 	: boardId
+				boardSeq : boardSeq
 		};
 		
 		// console.log("data", data);
 		
 		$.ajax({
 			type : "DELETE"
-			,url : "/board/"+boardId
+			,url : "/board/"+boardSeq
 			,cache : false
 			,contentType : 'application/json; charset=utf-8'
 			,data : JSON.stringify(data)
@@ -43,6 +43,12 @@
 		
 	}//contentDetele() end
 	
+	//대댓글
+	function writeReply(){
+		
+		
+	}
+	
 </script>
 
 </head>
@@ -52,35 +58,46 @@
 	<br/>
 		<h2>글</h2>
 		<br/>
-		<input type="hidden" id="boardId" value="${content.boardId}">
+		<input type="hidden" id="boardSeq" value="${content.boardSeq}">
 		<table class="table table-bordered">
 			<tr>
 				<td>번호</td>
-				<td>${content.boardId}</td>
+				<td>${content.boardSeq}</td>
 			</tr>
 			<tr>
 				<td>조회수</td>
-				<td>${content.hit}</td>
+				<td>${content.boardView}</td>
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td>${content.memberId}</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td><input id="title" value="${content.title}" disabled style="width:100%;"></td>
+				<td><input id="boardTitle" value="${content.boardTitle}" disabled style="width:100%;"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea rows="10" id="text" disabled style="width:100%;">${content.text}</textarea></td>
+				<td><textarea rows="10" id="boardText" disabled style="width:100%;">${content.boardText}</textarea></td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<button type="button" class="btn btn-success" onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
-					<button type="button" class="btn btn-warning" onclick="location.href='/contentModifyForm/${content.boardId}'">수정</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-warning" onclick="location.href='/contentModifyForm/${content.boardSeq}'">수정</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-danger" onclick="contentDetele()">삭제</button> 
 				</td>
 			</tr>
+			<tr>
+                <td>댓글 작성</td>
+                <td>
+                	<span>닉네임</span>
+                    <textarea rows="5" id="replyText" style="width:100%;"></textarea>
+                    <br/>
+                    <button type="button" class="btn btn-primary" onclick="writeReply()">작성</button>
+                </td>
+            </tr>
+			
+			
 		</table>
 	</div>
    
