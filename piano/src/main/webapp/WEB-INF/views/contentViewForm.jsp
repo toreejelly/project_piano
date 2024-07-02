@@ -6,6 +6,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<!-- 댓글 -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/comment.css">
+
 <meta charset="UTF-8">
 
 <title>글</title>
@@ -87,19 +91,85 @@
 					<button type="button" class="btn btn-danger" onclick="contentDetele()">삭제</button> 
 				</td>
 			</tr>
-			<tr>
-                <td>댓글 작성</td>
-                <td>
-                	<span>닉네임</span>
-                    <textarea rows="5" id="replyText" style="width:100%;"></textarea>
-                    <br/>
-                    <button type="button" class="btn btn-primary" onclick="writeReply()">작성</button>
-                </td>
-            </tr>
-			
-			
+		
 		</table>
 	</div>
+	
+
+<!-- 댓글.html -->
+
+<div class="container bootdey">
+<div class="col-md-12 bootstrap snippets">
+
+<!-- 댓글 작성 -->
+<div class="panel">	
+  <div class="panel-body">
+    <textarea class="form-control" id="commentText" rows="2" placeholder="댓글을 작성해주세요"></textarea>
+    <div class="mar-top clearfix"> 
+      <button class="btn btn-sm btn-primary pull-right" type="submit"  onclick="writeComment()"><i class="fa fa-pencil fa-fw"></i>작성</button>
+    </div>
+  </div>
+</div>
+<!-- 댓글 작성 끝 -->
+
+<div class="panel">
+    <div class="panel-body">
+<!-- 댓글 -->
+    <!--===================================================-->
+    <div class="media-block">
+      <a class="media-left" href="#"></a>
+      <div class="media-body">
+        <div class="mar-btm">
+          <a href="#" class="btn-link text-semibold media-heading box-inline">닉네임</a>
+          <p class="text-muted text-sm">닉네임</p>
+          <p class="text-muted text-sm">작성 시간</p>
+        </div>
+        <p>댓글내용</p>
+        <div class="pad-ver">
+          <div class="btn-group">
+            <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+            <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+          </div>
+          <a class="btn btn-sm btn-default btn-hover-primary" href="#">댓글</a>
+          <a class="btn btn-sm btn-default btn-hover-primary" href="#">수정</a>
+          <a class="btn btn-sm btn-default btn-hover-primary" href="#">삭제</a>
+        </div>
+        <hr>
+<!-- 댓글 끝 -->
+
+<!-- 대댓글 -->
+        <div>
+          <div class="media-block">
+            <a class="media-left" href="#"></a>
+            <div class="media-body">
+              <div class="mar-btm">
+                <a href="#" class="btn-link text-semibold media-heading box-inline">대댓글 닉네임</a>
+                <p class="text-muted text-sm">작성 시간</p>
+              </div>
+              <p>대댓글 내용</p>
+              <div class="pad-ver">
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-default btn-hover-success active" href="#"><i class="fa fa-thumbs-up"></i> You Like it</a>
+                  <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                </div>
+                <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 대댓글끝 -->
+
+  </div>
+</div>
+</div>
+</div>
+
+
+	
    
 </body>
 </html>
