@@ -1,6 +1,7 @@
 package com.piano.service;
 
 import java.util.List;
+
 import com.piano.vo.BoardVO;
 
 public interface BoardService {

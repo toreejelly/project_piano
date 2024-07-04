@@ -33,7 +33,7 @@
 				#{boardText},
 				#{boardGrpSeq},  
         		#{regUserSeq},
-				NOW()
+				CURRENT_TIMESTAMP
 			)
 	</insert> 
 	
