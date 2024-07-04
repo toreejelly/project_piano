@@ -15,16 +15,16 @@
 	//작성
 	function contentWrite() {
 		
-		let memberId = $("#memberId").val();
-		let title = $("#title").val();
-		let text = $("#text").val();
+		let boardTitle = $("#boardTitle").val();
+		let boardText = $("#boardText").val();
 		
 		
 		
-		let data = {
-			  memberId  : memberId
-			, title		: title
-			, text		: text
+		 let data = {
+			boardTitle : boardTitle,
+			boardText : boardText,
+			boardGrpSeq : 1, 
+		    regUserSeq : 1 
 		};
 		
 		console.log("data", data);
@@ -55,26 +55,26 @@
 <body>
 
 	<div class="container">
-	</br>
+	<br/>
 		<h2>글쓰기</h2>
 		<br/>
 		<table class="table table-bordered">
 			<tr>
-				<td>이름</td>
+				<td>닉네임</td>
 				<td>
-					<input id="memberId" style="width:100%;">				
-				</td>			
+				    <span></span>
+				</td>
 			</tr>
 			<tr>
 				<td>제목</td>
 				<td>
-					<input id="title" style="width:100%;">
+					<input id="boardTitle" style="width:100%;">
 				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea rows="10" id="text" style="width:100%;"></textarea>
+					<textarea rows="10" id="boardText" style="width:100%;"></textarea>
 				</td>
 			</tr>
 			<tr>
@@ -83,6 +83,7 @@
 					<button type="button" class="btn btn-warning" onclick="contentWrite()">작성</button>
 				</td>		
 			</tr>
+		</table>	
 	</div>
 
 </body>

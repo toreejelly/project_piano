@@ -32,8 +32,8 @@
 				<c:forEach items="${list}" var="board" varStatus="status">
 					<tr>
 						<td>${status.count}</td>
-						<td></td>
-						<td>${board.boardTitle}</td>
+						<td>${board.userNickname}</td>
+						<td><a href="/board/${board.boardSeq}">${board.boardTitle}</a></td>
 						<td>${board.regDt}</td>
 						<td>${board.boardView}</td>							
 					</tr>
