@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piano.mapper.main.MainMapper">
+
+	<!-- **************************************************************************************** 
+	// USER 사용자 
+	// ****************************************************************************************-->
+	
+	<!-- USER 사용자 조회 -->
+	<select id="selectUser" parameterType="HashMap" resultType="UserDTO">
+		SELECT
+			USER_SEQ
+			,USER_ID
+			,USER_NM
+			,PASSWORD
+			,POSTAL_CODE
+			,ADDRESS1
+			,ADDRESS2
+			,USER_TYPE
+			,REG_DT
+			,MODI_USER_SEQ
+			,MODI_DT
+			,DEL_USER_SEQ
+			,DEL_DT
+			,DEL_YN
+			,USER_NICKNAME
+		FROM
+			USER
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test='userSeq != null and userSeq != 0'>
+				AND USER_SEQ = #{userSeq}
+			</if>
+			<if test='userId != null and userId != ""'>
+				AND USER_ID = #{userId}
+			</if>
+			<if test='userNm != null and userNm != ""'>
+				AND USER_NM = #{userNm}
+			</if>
+		</trim>
+		ORDER BY
+			USER_SEQ DESC
+	</select>
+
+	<!-- USER 사용자 등록 -->
+	<insert id="insertUser" parameterType="HashMap">
+		INSERT INTO USER (
+			USER_SEQ
+			,USER_ID
+			,USER_NM
+			,PASSWORD
+			,POSTAL_CODE
+			,ADDRESS1
+			,ADDRESS2
+			,USER_TYPE
+			,REG_DT
+			,DEL_YN
+			,USER_NICKNAME
+		) VALUES (
+			#{userSeq}
+			,#{userId}
+			,#{userNm}
+			,#{password}
+			,#{postalCode}
+			,#{address1}
+			,#{address2}
+			,#{userType}
+			,#{regDt}
+			,'N'
+			,#{userNickname}
+		)
+	</insert>
+
+	<!-- USER 사용자 수정 -->
+	<update id="updateUser" parameterType="HashMap">
+		UPDATE USER
+		<trim prefix="SET" suffixOverrides=",">
+			<if test='userId != null and userId != ""'>
+				,USER_ID = #{userId}
+			</if>
+			<if test='userNm != null and userNm != ""'>
+				,USER_NM = #{userNm}
+			</if>
+			<if test='password != null and password != ""'>
+				,PASSWORD = #{password}
+			</if>
+			<if test='postalCode != null and postalCode != ""'>
+				,POSTAL_CODE = #{postalCode}
+			</if>
+			<if test='address1 != null and address1 != ""'>
+				,ADDRESS1 = #{address1}
+			</if>
+			<if test='address2 != null and address2 != ""'>
+				,ADDRESS2 = #{address2}
+			</if>
+			<if test='userType != null and userType != ""'>
+				,USER_TYPE = #{userType}
+			</if>
+			<if test='modiUserSeq != null and modiUserSeq != 0'>
+				,MODI_USER_SEQ = #{modiUserSeq}
+			</if>
+			<if test='modiDt != null and modiDt != ""'>
+				,MODI_DT = #{modiDt}
+			</if>
+			<if test='delUserSeq != null and delUserSeq != 0'>
+				,DEL_USER_SEQ = #{delUserSeq}
+			</if>
+			<if test='delDt != null and delDt != ""'>
+				,DEL_DT = #{delDt}
+			</if>
+			<if test='delYn != null and delYn != ""'>
+				,DEL_YN = #{delYn}
+			</if>
+			<if test='userNickname != null and userNickname != ""'>
+				,USER_NICKNAME = #{userNickname}
+			</if>
+		</trim>
+		WHERE USER_SEQ = #{userSeq}
+	</update>
+
+</mapper>
