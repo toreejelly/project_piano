@@ -7,35 +7,11 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<!-- Brand -->
-		<a class="navbar-brand" href="#">Logo</a>
-
-		<!-- Links -->
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" href="/list?boarGrpSeq=1">공지사항</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/list?boarGrpSeq=2">수업후기</a>
-			</li>
-
-			<!-- Dropdown -->
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"> 😊 </a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="/myPage">마이페이지</a>
-					<a class="dropdown-item" href="/login">로그인</a> 
-				</div>
-			</li>
-		</ul>
-	</nav>
 	<br>
-
 	<div class="container">
 		<h3>🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸🐸</h3>
 		<p>🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️🐟🐟🐟🐟🐟🐠🐠🐠🐠🐡🐡🐡🐡❤️❤️❤️❤️</p>
 	</div>
-
+	
 </body>
 </html>
