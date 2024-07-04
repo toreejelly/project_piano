@@ -3,6 +3,8 @@ package com.piano.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,32 +23,71 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 
 //이 컨트롤러의 기본 URL 경로를 /comments로 설정합니다. 이 클래스의 모든 메서드는 /comments 경로를 기준으로 매핑됩니다.
-@RequestMapping("/comments")
+@RequestMapping("/comment")
 public class CommentController {
 	
 	@Autowired
 	private CommentService commentService;
 	
 	
-	 //댓글 작성
+//	 //댓글 작성
+//    @PostMapping("/")
+//    public String commentWrite(@RequestBody CommentVO commentVO) {
+//    	log.info("CommentController commentWrite()");
+//    	log.info("commentVO :" + commentVO);
+//    	
+//        // 댓글 서비스에서 댓글 객체를 삽입하여 새 댓글을 데이터베이스에 저장
+//		commentService.commentWrite(commentVO);
+//        // 성공 메시지를 반환
+//        return "SUCCESS";
+//    }
+    //댓글 작성
     @PostMapping("/")
-    public String commentWrite(@RequestBody CommentVO commentVO) {
-    	log.info("CommentController commentWrite()");
+    public ResponseEntity<String> commentWrite(@RequestBody CommentVO commentVO) {
+        try {
+            commentService.commentWrite(commentVO);
+            return ResponseEntity.ok("SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+        }
+    }
+
+
+    // 특정 게시글의 댓글 목록 조회
+    @GetMapping("/{boardSeq}")
+    //@PathVariable : URL 경로의 일부를 메서드 파라미터로 전달받기 위해 사용됩니다. 
+    public List<CommentVO> getCommentList(@PathVariable("boardSeq") long boardSeq) {
+    	log.info("CommentController getCommentList()");
+    	log.info("boardSeq :" + boardSeq);
+        return commentService.getCommentList(boardSeq);
+    }
+    
+    
+	 //대댓글 작성
+//    @PostMapping("/reply")
+//    public String replyWrite(@RequestBody CommentVO commentVO) {
+//    	log.info("CommentController commentWrite()");
+//    	log.info("commentVO :" + commentVO);
+//    	
+//        // 댓글 서비스에서 댓글 객체를 삽입하여 새 댓글을 데이터베이스에 저장
+//		commentService.replyWrite(commentVO);
+//        // 성공 메시지를 반환
+//        return "SUCCESS";
+//    }
+
+    //대댓글 작성
+    @PostMapping("/reply")
+    public ResponseEntity<String> replyWrite(@RequestBody CommentVO commentVO) {
+    	log.info("CommentController replyWrite()");
     	log.info("commentVO :" + commentVO);
     	
-        // 댓글 서비스에서 댓글 객체를 삽입하여 새 댓글을 데이터베이스에 저장
-		commentService.commentWrite(commentVO);
-        // 성공 메시지를 반환
-        return "SUCCESS";
+        try {
+            commentService.replyWrite(commentVO);
+            return ResponseEntity.ok("SUCCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+        }
     }
-
-	
-    //댓글 목록
-    @GetMapping("/{boardSeq}")
-    public List<CommentVO> getComments(@PathVariable Long boardSeq) {
-        return commentService.getCommentsByBoardSeq(boardSeq);
-    }
-
-    
-
 }

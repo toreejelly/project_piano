@@ -26,5 +26,36 @@
 	</insert>
 
 
+	<!-- 댓글 목록 -->
+	<select id="getCommentList" parameterType="long" resultType="com.piano.vo.CommentVO">
+		SELECT *
+		FROM COMMENT
+		WHERE BOARD_SEQ = #{boardSeq}
+		AND DEL_YN = 'N'
+		ORDER BY REG_DT ASC
+	</select>
+	
+	
+	<!-- 대댓글 작성 -->
+	<insert id="replyInsert" parameterType="com.piano.vo.CommentVO">
+	INSERT INTO COMMENT 
+		(
+			BOARD_SEQ, 
+			BOARD_GRP_SEQ, 
+			PARENT_COMMENT_SEQ, 
+			REG_USER_SEQ, 
+			COMMENT_TEXT
+		)
+	VALUES 
+		(
+			#{boardSeq}, 
+			#{boardGrpSeq}, 
+			#{parentCommentSeq}, 
+			#{regUserSeq}, 
+			#{commentText}
+		)
+	</insert>
+	
+		
 
 </mapper>

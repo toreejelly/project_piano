@@ -1,5 +1,7 @@
 package com.piano.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class CommentServiceImpl implements CommentService{
 	
 	@Autowired
 	private CommentMapper mapper;
+	
 	//댓글 작성
 	@Override
     public void commentWrite(CommentVO commentVO) {
@@ -22,6 +25,20 @@ public class CommentServiceImpl implements CommentService{
 		mapper.commentWrite(commentVO);
     }
 	
+	//댓글 목록
+	@Override
+	public List<CommentVO> getCommentList(long boardSeq){
+		log.info("CommentServiceImpl getCommentList()");
+		return mapper.getCommentList(boardSeq);
+	} 
 	
+	
+	//대댓글 작성
+	@Override
+	public void replyWrite(CommentVO commentVO) {
+		log.info("CommentServiceImpl replyWrite()");
+		mapper.replyInsert(commentVO);
+	}
+
 	
 }

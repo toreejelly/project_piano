@@ -1,5 +1,7 @@
 package com.piano.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -7,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.piano.service.BoardService;
+import com.piano.service.CommentService;
 import com.piano.vo.BoardVO;
+import com.piano.vo.CommentVO;
 
 //import ch.qos.logback.core.model.Model;
 import org.springframework.ui.Model;
@@ -31,7 +36,8 @@ public class BoardController {
 	//스프링이 자동으로 의존성을 주입하는 역할을 수행한다.
 	//클래스 A가 다른 클래스 B를 이용할 때 A가 B에 의존한다고 한다. 이런 관계에서 A는 B없이 작동할 수 없다.	
 	private BoardService boardService;
-	
+	@Autowired
+	private CommentService commentService;
 	
 	//목록 조회
     @GetMapping("/list")
@@ -77,19 +83,38 @@ public class BoardController {
     
     
     //글 조회
+//    @GetMapping("/board/{boardSeq}")
+//    public String contentViewForm(Model model, BoardVO boardVO) {
+//    	log.info("BoardController contentViewForm()");
+//    	log.info("boardVO :" + boardVO);
+//    	
+//    	long boardSeq = boardVO.getBoardSeq();
+//    	log.info("boardSeq :" + boardSeq);
+//    	
+//    	model.addAttribute("content", boardService.getContent(boardSeq));
+//    	
+//    	return "contentViewForm";
+//    	
+//    }
+    
+    // 글 조회
     @GetMapping("/board/{boardSeq}")
-    public String contentViewForm(Model model, BoardVO boardVO) {
-    	log.info("BoardController contentViewForm()");
-    	log.info("boardVO :" + boardVO);
-    	
-    	long boardSeq = boardVO.getBoardSeq();
-    	log.info("boardSeq :" + boardSeq);
-    	
-    	model.addAttribute("content", boardService.getContent(boardSeq));
-    	
-    	return "contentViewForm";
-    	
+    public String contentViewForm(Model model, @PathVariable("boardSeq") long boardSeq) {
+        // 게시글 내용 조회
+        BoardVO board = boardService.getContent(boardSeq);
+        model.addAttribute("content", board);
+
+        // 댓글 목록 조회
+        //service로 가저오는 방법
+        List<CommentVO> commentList = commentService.getCommentList(boardSeq);
+        model.addAttribute("commentList", commentList);
+
+        //CommentController의 메서드를 직접 호출하는 방법
+        
+        
+        return "contentViewForm"; // contentViewForm.jsp 페이지로 반환
     }
+    
     
     //글 수정 페이지
     @GetMapping("/contentModifyForm/{boardSeq}")

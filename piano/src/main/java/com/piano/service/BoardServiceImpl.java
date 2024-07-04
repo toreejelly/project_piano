@@ -22,6 +22,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> getList(){
 		log.info("BoardServiceImpl getList()");
+		
 		return mapper.getList();
 	}
 	
@@ -40,6 +41,7 @@ public class BoardServiceImpl implements BoardService {
 	//글 조회
 	@Override
 	public BoardVO getContent(long boardSeq) {
+		
 		return mapper.getContent(boardSeq);
 	}
 	
