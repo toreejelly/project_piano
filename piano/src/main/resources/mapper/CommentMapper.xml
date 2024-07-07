@@ -37,7 +37,7 @@
 	
 	
 	<!-- 대댓글 작성 -->
-	<insert id="replyInsert" parameterType="com.piano.vo.CommentVO">
+	<insert id="insertReply" parameterType="com.piano.vo.CommentVO">
 	INSERT INTO COMMENT 
 		(
 			BOARD_SEQ, 
@@ -56,6 +56,21 @@
 		)
 	</insert>
 	
+
+	<!-- 댓글 수정 -->
+	<update id="updateComment" parameterType="com.piano.vo.CommentVO"> 
+		UPDATE COMMENT
+		SET COMMENT_TEXT = #{commentText},
+			REG_DT = CURRENT_TIMESTAMP			    			
+		WHERE COMMENT_SEQ = #{commentSeq} 	
+	</update> 
+	
+	<!-- 댓글 삭제 -->
+	<update id="deleteComment" parameterType="long"> 
+		UPDATE COMMENT
+		SET DEL_YN = 'Y'
+		WHERE COMMENT_SEQ = #{commentSeq}
+	</update>
 		
 
 </mapper>

@@ -2,6 +2,7 @@ package com.piano.mapper;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Mapper;
 import com.piano.vo.CommentVO;
 
@@ -16,6 +17,12 @@ public interface CommentMapper {
 	public List<CommentVO> getCommentList(long boardSeq); 
 	
 	//대댓글 작성
-	public void replyInsert(CommentVO commentVO);
+	public void insertReply(CommentVO commentVO);
+	
+	//댓글 수정
+	public void updateComment(CommentVO commentVO);
+	
+	//댓글 삭제
+	public void deleteComment(long commentSeq);
 	
 }

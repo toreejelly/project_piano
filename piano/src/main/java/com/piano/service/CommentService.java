@@ -15,8 +15,13 @@ public interface CommentService {
 	public List<CommentVO> getCommentList(long boardSeq); 
 
 	//대댓글 작성
-	public void replyWrite(CommentVO commentVO);
+	public void writeReply(CommentVO commentVO);
 
+	//댓글 수정
+	public void modifyComment(CommentVO commentVO);
+	
+	//댓글 삭제
+	public void deleteComment(long commentSeq);
 
 }
 

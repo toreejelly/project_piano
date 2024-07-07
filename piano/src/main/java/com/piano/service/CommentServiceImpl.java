@@ -35,10 +35,24 @@ public class CommentServiceImpl implements CommentService{
 	
 	//대댓글 작성
 	@Override
-	public void replyWrite(CommentVO commentVO) {
+	public void writeReply(CommentVO commentVO) {
 		log.info("CommentServiceImpl replyWrite()");
-		mapper.replyInsert(commentVO);
+		mapper.insertReply(commentVO);
 	}
 
+	//댓글 수정
+	@Override
+	public void modifyComment(CommentVO commentVO) {
+		log.info("CommentServiceImpl modifyComment()");
+		mapper.updateComment(commentVO);
+	}
+	
+	//댓글 삭제
+	@Override
+	public void deleteComment(long commentSeq) {
+		log.info("CommentServiceImpl deleteComment()");
+		mapper.deleteComment(commentSeq);
+		
+	}
 	
 }
