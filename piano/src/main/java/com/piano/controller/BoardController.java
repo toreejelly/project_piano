@@ -78,7 +78,6 @@ public class BoardController {
     	}//end
     	
     	return entity;
-    	
     } 
     
     
@@ -174,10 +173,6 @@ public class BoardController {
 		
 		return entity;
     }
-    
-    
- 
-
     
 }
 

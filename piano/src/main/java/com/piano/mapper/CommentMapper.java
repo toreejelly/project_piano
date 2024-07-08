@@ -12,7 +12,6 @@ public interface CommentMapper {
 	//댓글 작성
 	public void commentWrite(CommentVO commentVO);
 	
-
 	//댓글 목록
 	public List<CommentVO> getCommentList(long boardSeq); 
 	
