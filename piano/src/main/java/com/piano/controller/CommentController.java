@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.piano.service.CommentService;
-import com.piano.vo.BoardVO;
 import com.piano.vo.CommentVO;
 
 import lombok.extern.log4j.Log4j2;
@@ -44,31 +43,30 @@ public class CommentController {
 //        // 성공 메시지를 반환
 //        return "SUCCESS";
 //    }
-    //댓글 작성
-    @PostMapping("/")
-    public ResponseEntity<String> commentWrite(@RequestBody CommentVO commentVO) {
-        try {
-        	log.info("CommentController commentWrite()");
-        	log.info("commentVO :" + commentVO);
-            commentService.commentWrite(commentVO);
-            return ResponseEntity.ok("SUCCESS");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
-        }
-    }
+	// 댓글 작성
+	@PostMapping("/")
+	public ResponseEntity<String> commentWrite(@RequestBody CommentVO commentVO) {
+		try {
+			log.info("CommentController commentWrite()");
+			log.info("commentVO :" + commentVO);
+			commentService.commentWrite(commentVO);
+			return ResponseEntity.ok("SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+		}
+	}
 
 
-    // 특정 게시글의 댓글 목록 조회
-    @GetMapping("/{boardSeq}")
-    //@PathVariable : URL 경로의 일부를 메서드 파라미터로 전달받기 위해 사용됩니다. 
-    public List<CommentVO> getCommentList(@PathVariable("boardSeq") long boardSeq) {
-    	log.info("CommentController getCommentList()");
-    	log.info("boardSeq :" + boardSeq);
-        return commentService.getCommentList(boardSeq);
-    }
-    
-    
+	// 특정 게시글의 댓글 목록 조회
+	@GetMapping("/{boardSeq}")
+	// @PathVariable : URL 경로의 일부를 메서드 파라미터로 전달받기 위해 사용됩니다.
+	public List<CommentVO> getCommentList(@PathVariable("boardSeq") long boardSeq) {
+		log.info("CommentController getCommentList()");
+		log.info("boardSeq :" + boardSeq);
+		return commentService.getCommentList(boardSeq);
+	}
+
 	 //대댓글 작성
 //    @PostMapping("/reply")
 //    public String replyWrite(@RequestBody CommentVO commentVO) {
@@ -81,49 +79,47 @@ public class CommentController {
 //        return "SUCCESS";
 //    }
 
-    //대댓글 작성
-    @PostMapping("/reply")
-    public ResponseEntity<String> writeReply(@RequestBody CommentVO commentVO) {
-    	log.info("CommentController writeReply()");
-    	log.info("commentVO :" + commentVO);
-    	
-        try {
-            commentService.writeReply(commentVO);
-            return ResponseEntity.ok("SUCCESS");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
-        }
-    }
-    
-    //댓글 수정
-    @PutMapping("/{commentSeq}")
-        public ResponseEntity<String> modifyComment(@PathVariable("commentSeq") long commentSeq, @RequestBody CommentVO commentVO) {
-        log.info("CommentController modifyComment()");
-        log.info("CommentVO : " + commentVO);
+	// 대댓글 작성
+	@PostMapping("/reply")
+	public ResponseEntity<String> writeReply(@RequestBody CommentVO commentVO) {
+		log.info("CommentController writeReply()");
+		log.info("commentVO :" + commentVO);
 
-        ResponseEntity<String> entity = null;
+		try {
+			commentService.writeReply(commentVO);
+			return ResponseEntity.ok("SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FAILED");
+		}
+	}
 
-        try {
-        	commentVO.setBoardSeq(commentSeq); // 요청 URL에서 받은 boardSeq 설정
+	// 댓글 수정
+	@PutMapping("/{commentSeq}")
+	public ResponseEntity<String> modifyComment(@PathVariable("commentSeq") long commentSeq, @RequestBody CommentVO commentVO) {
+		log.info("CommentController modifyComment()");
+		log.info("CommentVO : " + commentVO);
 
-        	commentService.modifyComment(commentVO);
+		ResponseEntity<String> entity = null;
 
-           entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+		try {
+			commentVO.setBoardSeq(commentSeq); // 요청 URL에서 받은 boardSeq 설정
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			commentService.modifyComment(commentVO);
 
-        }
+			entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
 
-        return entity;
-    }
-    
-    
-    //댓글 삭제
-    @DeleteMapping("/{commentSeq}")
-    public ResponseEntity<String> deleteComment(@RequestBody CommentVO commentVO) {
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+
+	// 댓글 삭제
+	@DeleteMapping("/{commentSeq}")
+	public ResponseEntity<String> deleteComment(@RequestBody CommentVO commentVO) {
 		log.info("CommentController deleteComment()");
 		log.info("commentVO : " + commentVO);
 
@@ -131,8 +127,7 @@ public class CommentController {
 		long commentSeq = commentVO.getCommentSeq();
 	
 		try {
-			commentService.deleteComment(commentSeq);
-			
+			commentService.deleteComment(commentSeq);			
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 						
 		}catch(Exception e) {
@@ -141,8 +136,6 @@ public class CommentController {
 		}//end
 		
 		return entity;
-    }
-     
- 
-    
+	}
+
 }

@@ -11,14 +11,14 @@
 <title>글 수정</title>
 
 <script type="text/javascript">
-   
+
 	//수정
 	function contentModify(){
 	   
 		let boardSeq = $("#boardSeq").val(); // 게시판 순번
 		let boardTitle = $("#boardTitle").val(); // 제목
 		let boardText = $("#boardText").val(); // 글          
-       
+
 		var data = {
 			boardSeq 		: boardSeq
 			, boardTitle 	: boardTitle
@@ -76,7 +76,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="button" class="btn btn-success" onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-success" onclick="location.href='/board/list'">목록보기</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-warning" onclick="contentModify()">저장</button>&nbsp;&nbsp;
 				</td>
 			</tr>

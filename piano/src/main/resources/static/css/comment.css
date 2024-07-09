@@ -2,50 +2,50 @@
 
 /* 기본 폰트 설정 */
 body {
-    font-family: 'Noto Sans KR', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .comments-container {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
 .comment {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	margin-bottom: 10px;
 }
 
-.comment-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+.comment-header  {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 5px;
 }
 
-.comment-author {
-    font-weight: bold;
-    color: #333;
+.comment-author  {
+	font-weight: bold;
+	color: #333;
 }
 
-.comment-date {
-    color: #777;
+.comment-date  {
+	color: #777;
 }
 
-.comment-content {
-    margin-bottom: 10px;
+.comment-content  {
+	margin-bottom: 10px;
 }
 
-.comment-actions {
-    margin-top: 5px;
+.comment-actions  {
+	margin-top: 5px;
 }
 
-.replies-container {
-    margin-top: 10px;
-    padding-left: 20px;
-    border-left: 1px solid #ddd;
+.replies-container  {
+	margin-top: 10px;
+	padding-left: 20px;
+	border-left: 1px solid #ddd;
 }
 
-.new-comment {
-    margin-bottom: 20px;
+.new-comment  {
+	margin-bottom: 20px;
 }
 

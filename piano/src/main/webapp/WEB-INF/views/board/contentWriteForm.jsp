@@ -12,19 +12,18 @@
 <title>글쓰기</title>
 
 <script>
+	
 	//작성
 	function contentWrite() {
 		
 		let boardTitle = $("#boardTitle").val();
 		let boardText = $("#boardText").val();
-		
-		
-		
-		 let data = {
-			boardTitle : boardTitle,
-			boardText : boardText,
-			boardGrpSeq : 1, 
-		    regUserSeq : 1 
+
+		let data = {
+			boardTitle : boardTitle
+			,boardText : boardText
+			,boardGrpSeq : 1
+		    ,regUserSeq : 1 
 		};
 		
 		console.log("data", data);
@@ -39,16 +38,15 @@
 				console.log("result", result);
 				alert("작성되었습니다.");
 				location.href = "/board/"+result;
-				
 			}
 			,error : function(e){
 				console.log(e);
 				alert("작성 실패하였습니다.");
 			}
-		});//ajax end
-	
-}//contentWrite() end
-</script>
+		});//ajax end	
+	}//contentWrite() end
+
+	</script>
 
 
 </head>
@@ -79,7 +77,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="button" class="btn btn-success" onclick="location.href='/list'">목록보기</button> &nbsp;&nbsp; 
+					<button type="button" class="btn btn-success" onclick="location.href='/board/list'">목록보기</button> &nbsp;&nbsp; 
 					<button type="button" class="btn btn-warning" onclick="contentWrite()">작성</button>
 				</td>		
 			</tr>
