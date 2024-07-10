@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 public class BoardVO {
 	
-	private Long boardSeq;             // 게시글 순서
+	private Long boardSeq;             // 게시글 순서 Long와 long 의 차이 확인하기 long 으로 바꿔두기
 	private Long boardGrpSeq;          // 게시글 그룹 순서
 	private Long regUserSeq;           // 사용자 순서
 	private String boardText;          // 게시글 내용
