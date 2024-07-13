@@ -3,10 +3,8 @@ package com.piano.main;
 import java.sql.Timestamp;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class CommonVO {
 
 	// 공통

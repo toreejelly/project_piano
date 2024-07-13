@@ -1,10 +1,12 @@
-package com.piano.main;
+package com.piano.user;
+
+import com.piano.main.CommonVO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false) // +++ 임시 뭔지 확인 필요  
+@EqualsAndHashCode(callSuper=false)
 public class UserVO extends CommonVO {
 
 	// USER 사용자

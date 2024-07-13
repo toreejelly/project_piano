@@ -24,7 +24,6 @@
 		background-color: #fff;
 	}
 </style>
-
 <body>
 
 	<div class="inBody">
@@ -32,10 +31,12 @@
 			<h2 class="text-center">회원가입</h2>
 			<form>
 				<div class="form-group">
-					<label for="username">아이디</label> <input type="text" class="form-control" id="userId" placeholder="">
+					<label for="username">아이디</label>
+					<input type="text" class="form-control" id="userId" placeholder="">
 				</div>
 				<div class="form-group">
-					<label for="password">비밀번호</label> <input type="password" class="form-control" id="password" placeholder="">
+					<label for="password">비밀번호</label>
+					<input type="password" class="form-control" id="password" placeholder="">
 				</div>
 				<div class="form-group">
 					<label for="confirm-password">비밀번호 확인</label>

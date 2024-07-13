@@ -1,0 +1,14 @@
+package com.piano.user;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface UserMapper {
+
+	// 사용자 조회
+	public List<UserVO> selectUserList(HashMap<String, Object> param);
+	
+}
