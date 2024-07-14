@@ -46,24 +46,24 @@
 			,DEL_YN
 			,LEVEL
 
-		-- GROUP_SEQ 열은 댓글과 대댓글을 그룹화하는 데 사용
-		CASE 
-			WHEN PARENT_COMMENT_SEQ IS NULL THEN COMMENT_SEQ	-- 최상위 댓글인 경우, COMMENT_SEQ 사용
-			ELSE PARENT_COMMENT_SEQ								-- 대댓글인 경우, PARENT_COMMENT_SEQ 사용
-		END AS GROUP_SEQ,
+		<!-- GROUP_SEQ 열은 댓글과 대댓글을 그룹화하는 데 사용 --> 
+		,CASE 
+			WHEN PARENT_COMMENT_SEQ IS NULL THEN COMMENT_SEQ	<!-- 최상위 댓글인 경우, COMMENT_SEQ 사용-->
+			ELSE PARENT_COMMENT_SEQ								<!-- 대댓글인 경우, PARENT_COMMENT_SEQ 사용-->
+		END AS GROUP_SEQ
 
-		-- IS_REPLY 열은 댓글과 대댓글을 구분하는 데 사용됩니다.
-		CASE 
-			WHEN PARENT_COMMENT_SEQ IS NULL THEN 0				-- 최상위 댓글인 경우, 0
-			ELSE 1-- 대댓글인 경우, 1
+		<!--IS_REPLY 열은 댓글과 대댓글을 구분하는 데 사용-->
+		,CASE 
+			WHEN PARENT_COMMENT_SEQ IS NULL THEN 0				<!-- 최상위 댓글인 경우, 0-->
+			ELSE 1												<!-- 대댓글인 경우, 1-->
 		END AS IS_REPLY
 		FROM COMMENT
-		WHERE BOARD_SEQ = #{boardSeq}							-- 특정 게시글의 댓글을 가져옴
-		AND DEL_YN = 'N'										-- 삭제되지 않은 댓글만 가져옴
+		WHERE BOARD_SEQ = #{boardSeq}							<!-- 특정 게시글의 댓글을 가져옴-->
+		AND DEL_YN = 'N'										<!-- 삭제되지 않은 댓글만 가져옴-->
 		ORDER BY 
-			GROUP_SEQ DESC										-- GROUP_SEQ를 기준으로 내림차순 정렬 (최상위 댓글 먼저)
-			,IS_REPLY ASC										-- IS_REPLY를 기준으로 오름차순 정렬 (최상위 댓글이 먼저, 그 다음 대댓글)
-			,REG_DT DESC										-- REG_DT를 기준으로 내림차순 정렬 (최신 댓글/대댓글이 먼저)
+			GROUP_SEQ DESC										<!-- GROUP_SEQ를 기준으로 내림차순 정렬 (최상위 댓글 먼저)-->
+			,IS_REPLY ASC										<!-- IS_REPLY를 기준으로 오름차순 정렬 (최상위 댓글이 먼저, 그 다음 대댓글)-->
+			,REG_DT DESC										<!-- REG_DT를 기준으로 내림차순 정렬 (최신 댓글/대댓글이 먼저)-->
 	</select>
 
 	
