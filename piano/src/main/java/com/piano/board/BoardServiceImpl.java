@@ -1,14 +1,9 @@
-package com.piano.service;
+package com.piano.board;
 
 import java.util.List;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.piano.mapper.BoardMapper;
-import com.piano.vo.BoardVO;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -23,7 +18,14 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getList(){
 		log.info("BoardServiceImpl getList()");
 		
-		return mapper.getList();
+		return mapper.getListContent();
+	}
+	
+	//글 조회
+	@Override
+	public BoardVO getContent(long boardSeq) {
+		log.info("BoardServiceImpl getContent()");
+		return mapper.getListContent(boardSeq);
 	}
 	
 	//글 작성	
@@ -38,21 +40,17 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.boardSeq();
 	}
 	
-	//글 조회
+	
+	//글 수정 삭제
 	@Override
-	public BoardVO getContent(long boardSeq) {
-		
-		return mapper.getContent(boardSeq);
+	public void contentModiAndDel(BoardVO boardVO) {
+		mapper.contentModiAndDel(boardVO);
 	}
 	
-	//글 수정
+	//조회수 증가
 	@Override
-	public void contentModify(BoardVO boardVO) {
-		mapper.contentModify(boardVO);
-	}
-	
-	//글 삭제
-	public void contentDelete(long boardSeq) {
-		mapper.contentDelete(boardSeq);
+	public void boardView(BoardVO boardVO) {
+		log.info("BoardServiceImpl boardView()");
+		mapper.contentModiAndDel(boardVO);
 	}
 }

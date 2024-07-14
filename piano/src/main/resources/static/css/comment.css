@@ -49,3 +49,10 @@ body {
 	margin-bottom: 20px;
 }
 
+.media-level {
+	padding-left: calc(var(--level, 0) * 20px);
+}
+
+.reply-form-container{
+	padding-left: calc(var(--level, 0) * 20px);
+}

@@ -1,6 +1,7 @@
-package com.piano.controller;
+package com.piano.comment;
 
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.piano.service.CommentService;
-import com.piano.vo.CommentVO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -84,9 +82,11 @@ public class CommentController {
 	public ResponseEntity<String> writeReply(@RequestBody CommentVO commentVO) {
 		log.info("CommentController writeReply()");
 		log.info("commentVO :" + commentVO);
-
+		
 		try {
 			commentService.writeReply(commentVO);
+			log.info("level : " + commentVO.getLevel());
+			log.info("parentCommentSeq" +commentVO.getParentCommentSeq());
 			return ResponseEntity.ok("SUCCESS");
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -3,12 +3,7 @@
 <html>
 <head>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<meta charset="UTF-8">
-
-<title>글 수정</title>
+<jsp:directive.include file="../head.jsp"/>
 
 <script type="text/javascript">
 
@@ -76,7 +71,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<button type="button" class="btn btn-success" onclick="location.href='/board/list'">목록보기</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-success" onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-warning" onclick="contentModify()">저장</button>&nbsp;&nbsp;
 				</td>
 			</tr>

@@ -1,10 +1,11 @@
-package com.piano.mapper;
+package com.piano.comment;
 
 import java.util.List;
 
 
+
 import org.apache.ibatis.annotations.Mapper;
-import com.piano.vo.CommentVO;
+
 
 @Mapper
 public interface CommentMapper {

@@ -5,11 +5,7 @@
 <html>
 <head>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<meta charset="UTF-8">
-
-<title>목록</title>
+<jsp:directive.include file="../head.jsp"/>
 
 </head>
 <body>
@@ -38,7 +34,7 @@
 				</c:forEach>			
 			</tbody>	
 		</table>	
-		<button type="button" class="btn btn-warning" onclick="location.href='/board/contentWriteForm';">글쓰기</button>
+		<button type="button" class="btn btn-warning" onclick="location.href='/contentWriteForm';">글쓰기</button>
 	</div>
 </body>
 </html>

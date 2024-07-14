@@ -1,4 +1,4 @@
-package com.piano.vo;
+package com.piano.comment;
 
 
 
@@ -23,6 +23,7 @@ public class CommentVO {
 	private Long delUserSeq;
 	private Timestamp delDt;
 	private String delYn;
-	private String userNickname;	   // 사용자 닉네임
+	private String userNickname;	// 사용자 닉네임
+	private Long level;				//댓글 들여쓰기
 
 }

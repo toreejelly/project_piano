@@ -5,82 +5,119 @@
 <html>
 <head>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<!-- 댓글 -->
-<link
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-	rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="/css/comment.css">
-
-<meta charset="UTF-8">
-
-<title>글</title>
+<jsp:directive.include file="../head.jsp"/>
 
 <script type="text/javascript">
 
-	//삭제
-	function contentDetele() {
-		
-		let boardSeq = $("#boardSeq").val();          
-		
+	//조회수 증가
+	$(document).ready(function()  {	
+		let boardSeq = $("#boardSeq").val(); 
 		var data = {
-			boardSeq : boardSeq
-			,boardGrpSeq : 1
-			,userSeq : 1 
+			boardSeq : boardSeq	
+			,boardViewCount : true
 		};
 		
-		// console.log("data", data);
-		
 		$.ajax({
-			type : "DELETE"
+			 type : "POST"
 			,url : "/board/"+boardSeq
 			,cache : false
 			,contentType : 'application/json; charset=utf-8'
 			,data : JSON.stringify(data)
 			,success : function(result) {
 				if (result == "SUCCESS") {
-					alert("삭제되었습니다.");
-					location.href = "/board/list";
+					console.log('조회수 증가 성공');
+					var curentView = parseInt($("#view").text());
+					console.log("curentView" , curentView);
+					$("#view").text(curentView + 1);
+				
 				}
 			}
 			,error : function(e) {
-				alert("삭제 실패했습니다.");
-				console.log(e);
+				console.log('조회수 증가 실패');
 			}
-		})//ajax end		
+		})//ajax end	
+		
+		
+	});
+
+	//삭제
+	function contentDetele() {
+		if(confirm("삭제하시겠습니까?")){
+			let boardSeq = $("#boardSeq").val(); 
+			let delYn ="Y";
+			
+			var data = {
+				 boardSeq : boardSeq
+				,boardGrpSeq : 1
+				,userSeq : 1 
+				,delYn : delYn
+			};
+		
+			// console.log("data", data);
+			
+			$.ajax({
+				 type : "DELETE"
+				,url : "/board/"+boardSeq
+				,cache : false
+				,contentType : 'application/json; charset=utf-8'
+				,data : JSON.stringify(data)
+				,success : function(result) {
+					if (result == "SUCCESS") {
+						alert("삭제되었습니다.");
+						location.href = "/list";
+					}
+				}
+				,error : function(e) {
+					alert("삭제 실패했습니다.");
+					console.log(e);
+				}
+			})//ajax end	
+		}//if end
 	}//contentDetele() end
 	
 //댓글
 
-	$(document).ready(function()  {
-	// 페이지 로드 시 기본 댓글 작성 폼을 추가
-		let mainCommentFormContainer = $('#mainCommentFormContainer');
-		let template = document.getElementById('commentFormTemplate').content.cloneNode(true);
-		mainCommentFormContainer.append(template).show();
-	});
-	
 	function showReplyForm(action, commentSeq) {
 	
 	// 클릭 버튼 가져오기
-	let button = event.target || event.srcElement;
-	let replyFormContainer = $(button).closest(".media-body").find(".reply-form-container");
 
+	let button = event.target;
+	//let replyFormContainer = $(button).closest(".media-body").find(".reply-form-container");
+
+	// 모든 reply-form-container에서 reply-form 제거
+	//$(".reply-form-container").empty();
+	
+	//data-level값 가져오기
+	let parentComment = $(button).closest('.media-block');
+	let parentLevel = parseInt(parentComment.find('.media-level').attr('data-level'), 10);
+	console.log("parentLevel :" , parentLevel);
+	
+	// 대댓글 입력 폼 컨테이너 찾기
+	let replyFormContainer = parentComment.find('.reply-form-container').first();
+	
+	// 클릭된 댓글의 다른 모든 reply-form-container에서 reply-form 제거
+	parentComment.find('.reply-form-container').not(replyFormContainer).empty();
+	
 	// 대댓글 입력 창이 이미 있는 경우 제거, 그렇지 않으면 생성 후 .reply-form 클래스를 가진 요소를 찾아 추가
 		if (replyFormContainer.find('.reply-form').length > 0) {
 			replyFormContainer.empty(); // 이미 있는 대댓글 입력 창이 있는 경우, 제거
 		} else {
-			$(".reply-form").remove(); // 다른 대댓글 입력 창이 이미 있는 경우도 제거
+			// 다른 대댓글 입력 창이 이미 있는 경우도 제거
+			parentComment.find('.reply-form').remove(); 
 
 			// 템플릿 클론 생성(commentFormTemplate 복제)
 			let template = document.getElementById('commentFormTemplate').content.cloneNode(true);
 			let form = $(template).find('.reply-form');
 
+			// 부모 댓글의 레벨 가져오기 및 새 레벨 설정
+			let newLevel = parentLevel + 1;
+			console.log("newLevel :" , newLevel);
+	
 			// 폼을 해당 컨테이너에 추가
 			replyFormContainer.append(form);
+			//들여쓰기 하기
+			
+			replyFormContainer.css('--level', newLevel);
 		}
 
 		// 수정 모드인 경우
@@ -93,15 +130,13 @@
 			replyFormContainer.find('.comment-textarea').val(commentText);
 
 			// 수정 폼에서 '작성' 버튼 대신 '수정'과 '취소' 버튼 보이도록 설정
-			replyFormContainer.find('#commentCancleBtn').show();
 			replyFormContainer.find('#commentModifyBtn').show();
-			replyFormContainer.find('#commentSubmitBtn').hide();
+			replyFormContainer.find('#commentCancleBtn').show();			
 			replyFormContainer.find('#replySubmitBtn').hide();
 		} else {
 			// 대댓글 작성 모드로 처리
 			replyFormContainer.find('#replySubmitBtn').show();
 			replyFormContainer.find('#commentCancleBtn').show();
-			replyFormContainer.find('#commentSubmitBtn').hide();
 			replyFormContainer.find('#commentModifyBtn').hide();
 		}
 	}//showReplyForm()end
@@ -123,7 +158,7 @@
 			boardSeq: $("#boardSeq").val()
 			,commentText: commentText
 			,boardGrpSeq : 1 
-			,regUserSeq: 1 // 예시로 사용자 ID를 1로 설정. 실제 구현에서는 로그인한 사용자 ID를 사용해야 함.
+			,regUserSeq: 1
 		};
 
 		$.ajax({
@@ -144,13 +179,24 @@
 	}//commentWrite()end
 
 	// 대댓글 작성
-	// button은 클릭된 버튼 요소를 참조합니다.
+	// button은 클릭된 버튼 요소를 참조
 	function writeReply(event) {
-		let button = event.target || event.srcElement;
-		let repliesContainer = $(button).closest(".media-body").find(".replies");		 
-		let commentText = $("#commentText").val();
-		let parentCommentSeq = $(button).closest('.media-block').data("comment-seq");
-	
+		
+		let button = event.target;
+		
+		let parentComment = $(button).closest('.media-block');
+		//let repliesContainer = parentComment.find('.replies');
+		let repliesContainer = parentComment.find('.replies').first();
+		let commentText = $(button).closest('.reply-form').find('textarea').val();
+		//let commentText = $("#replyText").val();
+		
+		let parentCommentSeq = parentComment.data("comment-seq");			
+		//let parentCommentSeq = parentComment.find('.media-block').attr('comment-seq');
+		
+		let parentLevel = parseInt(parentComment.find('.media-level').attr('data-level'), 10);
+		
+		console.log("parentLevel: ",parentLevel);
+		
 		if (!commentText.trim()) {
 			alert("대댓글 내용을 입력해주세요.");
 			return;
@@ -158,12 +204,12 @@
 
 		let data = {
 			boardSeq: $("#boardSeq").val()
-			// jQuery 객체가 아니라 DOM 요소에서 데이터를 추출한 값이어야 한다.
 			//parentCommentSeq: parentCommentSeq.data("comment-seq")
 			,parentCommentSeq: parentCommentSeq
 			,commentText: commentText
 			,boardGrpSeq : 1
-			,regUserSeq: 1 // 예시로 사용자 ID를 1로 설정. 실제 구현에서는 로그인한 사용자 ID를 사용해야 함.
+			,regUserSeq: 1 
+			,level: parentLevel + 1
 		};
 
 		$.ajax({
@@ -174,13 +220,41 @@
 			,success: function(result) {
 				console.log("reply" + result);
 				if (result === "SUCCESS") {
-				// 대댓글을 부모 댓글 아래로 추가
-				//addReply(parentCommentSeq, commentText);
+				console.log("parentCommentSeq:", parentCommentSeq);
+				console.log("Comment text:", commentText);  
+				
+				let newReplyTemplate = $('#commentListTemplate').find('.media-block').first().clone();
+				newReplyTemplate.attr('data-comment-seq', result.commentSeq);
+				newReplyTemplate.find('.comment-text').text(commentText);
+				
+				//새로운 자식 data-level 값 변경해서 넣기
+				let newLevel = parentLevel + 1;
+				newReplyTemplate.find('.media-level').attr('data-level', newLevel).css('--level', newLevel);
+				//console.log("newLevel: ", newLevel);
+				
+				// 부모 댓글 아래의 대댓글 목록에 추가
+				//parentComment.find('.replies').append(newReplyTemplate);
+				repliesContainer.append(newReplyTemplate);
+
 
 				// 대댓글 입력창 초기화
-				$(button).closest('.reply-form').find('textarea').val('');
+				//$(button).closest('.reply-form').find('textarea').val('');
 				// 대댓글 입력창 숨기기
-				$(button).closest('.reply-form').remove();
+				//$(button).closest('.reply-form').remove();
+								
+				//let replyForm = $(button).closest('.reply-form');
+				//console.log(replyForm);// '.reply-form' 요소를 출력하여 확인
+			
+				//let textarea = replyForm.find('textarea');
+				//console.log(textarea); // 'textarea' 요소를 출력하여 확인
+			
+				//textarea.val('');
+				//replyForm.remove();
+			
+				// 대댓글 입력창 초기화 및 제거
+				let replyForm = $(button).closest('.reply-form');
+				replyForm.find('textarea').val('');
+				replyForm.remove();
 				
 				} else {
 					alert("대댓글 작성에 실패했습니다.");
@@ -193,30 +267,9 @@
 		});
 	}//writeReply()end
 	
-
-	//이거 안됨
-	//새로고침 해야 대댓글 뜸
-	//부모 댓글 아래에 안 뜸
-	// 대댓글을 부모 댓글 아래에 추가 
-
-	function addReply(parentCommentSeq, commentText) {
-
-		//let replyHtml = `
-		//<div class="reply">
-		//<div class="media-block" data-comment-seq="${parentCommentSeq}">
-		//<p class="comment-text">${commentText}</p>
-		//</div>
-		//</div>
-		//`;
-		console.log("Adding reply to parentCommentSeq:", parentCommentSeq);
-		console.log("Comment text:", commentText);   
+	function changeLevel(){
 		
-		// 부모 댓글 아래에 대댓글을 추가하는 부분
-		//$(`.media-block[data-comment-seq='${parentCommentSeq}'] .replies`).append(replyHtml);
-		$(`.media-block[data-comment-seq='${parentCommentSeq}'] .replies`).first().append(replyHtml);
-
-	}//addReply()end
-
+	}
 
 
 	//댓글 수정
@@ -286,13 +339,16 @@
 
 </script>
 
+
 </head>
 <body>
 
 	<div class="container">
 		<br />
 		<h2>글</h2>
-		<br /> <input type="hidden" id="boardSeq" value="${content.boardSeq}">
+		<br /> 
+		<input type="hidden" id="boardSeq" value="${content.boardSeq}">
+		<input type="hidden" name="delYn" id="delYn" value="">
 		<table class="table table-bordered">
 			<tr>
 				<td>번호</td>
@@ -300,7 +356,7 @@
 			</tr>
 			<tr>
 				<td>조회수</td>
-				<td>${content.boardView}</td>
+				<td id="view">${content.boardView}</td>
 			</tr>
 			<tr>
 				<td>이름</td>
@@ -319,7 +375,7 @@
 			<tr>
 				<td colspan="2">
 					<button type="button" class="btn btn-success"
-						onclick="location.href='/board/list'">목록보기</button>&nbsp;&nbsp;
+						onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-warning"
 						onclick="location.href='/contentModifyForm/${content.boardSeq}'">수정</button>&nbsp;&nbsp;
 					<button type="button" class="btn btn-danger"
@@ -329,34 +385,44 @@
 
 		</table>
 	</div>
+<!-- 댓글 영역 -->
 
-
-	<!-- 댓글 영역 -->
-
+<!-- 댓글 템플릿 -->	
 	<div class="container bootdey">
-		<div class="col-md-12 bootstrap snippets">
-			<!-- 기본 댓글 작성 폼 -->
-			<div id="mainCommentFormContainer"></div>
-
-			<!-- 댓글 작성 템플릿 -->
-			<template id="commentFormTemplate">
-				<!--  style="display: none;"이거 추가함 -->
-				<div class="panel reply-form">
-					<div class="panel-body">
-						<p class="text-muted text-sm">닉네임</p>
-						<textarea id="commentText" class="form-control comment-textarea"
-							rows="2" placeholder="댓글을 작성해주세요"></textarea>
-
-						<div class="mar-top clearfix">
-							<button id="commentSubmitBtn"
+		<div class="col-md-12 bootstrap snippets">			
+			<div class="panel">
+				<div class="panel-body">
+					<p class="text-muted text-sm">닉네임</p>
+					<textarea id="commentText" class="form-control comment-textarea"
+						rows="2" placeholder="댓글을 작성해주세요"></textarea>
+					<div class="mar-top clearfix">
+						<button id="commentSubmitBtn"
 								class="btn btn-sm btn-primary pull-right" type="button"
 								onclick="commentWrite()">
 								<i class="fa fa-pencil fa-fw"></i>작성
-							</button>
+						</button>														
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container bootdey">
+		<div class="col-md-12 bootstrap snippets">
+			<!-- 대댓글 / 수정 템플릿 -->
+			<template id="commentFormTemplate">
+				<div class="panel reply-form">
+					<div class="panel-body">
+						<p class="text-muted text-sm">닉네임</p>
+						<textarea id="replyText" class="form-control comment-textarea"
+							rows="2" placeholder="댓글을 작성해주세요"></textarea>
+
+						<div class="mar-top clearfix">							
 							<button id="replySubmitBtn"
 								class="btn btn-sm btn-primary pull-right" type="button"
 								onclick="writeReply(event)">
-								<i class="fa fa-pencil fa-fw"></i>대댓글 작성
+								<i class="fa fa-pencil fa-fw"></i>작성
 							</button>
 							<!-- 댓글 수성 취소 버튼 -->
 							<button id="commentCancleBtn"
@@ -381,29 +447,31 @@
 					<div class="panel" id="replylist">
 						<div class="panel-body">
 							<c:forEach var="comment" items="${commentList}">
-								<!-- <!-- HTML5의 사용자 정의 데이터 속성(attribute) 규칙 때문에 data-comment-seq 하이픈 사용 -->
+								<!-- HTML5의 사용자 정의 데이터 속성(attribute) 규칙 때문에 data-comment-seq 하이픈 사용 -->
 								<div class="media-block" data-comment-seq="${comment.commentSeq}">
 									<a class="media-left" href="#"></a>
 									<div class="media-body">
-										<div class="mar-btm">											
-											<p class="text-muted text-sm">닉네임</p>
-											<p class="text-muted text-sm">${comment.regDt}</p>
-										</div>
-										<!-- 댓글 내용 -->
-										<div class="comment-text-container">
-											<p class="comment-text">${comment.commentText}</p>
-										</div>
-										<div class="pad-ver">
-											<div class="btn-group">
-												<a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a> 
-												<a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+										<div class="media-level" data-level="${comment.level}">	
+											<div class="mar-btm">											
+												<p class="text-muted text-sm">닉네임</p>
+												<p class="text-muted text-sm">${comment.regDt}</p>
 											</div>
-												<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm()">댓글</a> 
-												<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm('modify', ${comment.commentSeq})">수정</a>
-												<a class="btn btn-sm btn-default btn-hover-primary" onclick="deleteComment(${comment.commentSeq})">삭제</a>
-										</div>
+											<!-- 댓글 내용 -->
+											<div class="comment-text-container">
+												<p class="comment-text">${comment.commentText}</p>
+											</div>
+											<div class="pad-ver">
+												<div class="btn-group">
+													<a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a> 
+													<a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+												</div>
+													<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm()">댓글</a> 
+													<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm('modify', ${comment.commentSeq})">수정</a>
+													<a class="btn btn-sm btn-default btn-hover-primary" onclick="deleteComment(${comment.commentSeq})">삭제</a>
+											</div>
+										</div>	
 										<hr>
-										<!-- 부모 댓글 아래에 대댓글 입력 폼을 추가  -->
+										<!-- 부모 댓글 아래에 대댓글 / 수정 입력 폼을 추가  -->
 										<div class="reply-form-container"></div>
 										<!-- 부모 댓글 아래에 대댓글 목록을 표시 -->
 										<div class="replies"></div>

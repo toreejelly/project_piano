@@ -1,9 +1,6 @@
-package com.piano.service;
+package com.piano.board;
 
 import java.util.List;
-
-
-import com.piano.vo.BoardVO;
 
 public interface BoardService {
 
@@ -20,11 +17,10 @@ public interface BoardService {
 	//글 조회
 	public BoardVO getContent(long boardSeq);
 	
-	//글 수정
-	public void contentModify(BoardVO boardVO);
+	//글 수정 삭제
+	public void contentModiAndDel(BoardVO boardVO);
 	
-	//글 삭제
-	public void contentDelete(long boardSeq);
-	
+	//조회수 증가
+	public void boardView(BoardVO boardVO);
 
 }

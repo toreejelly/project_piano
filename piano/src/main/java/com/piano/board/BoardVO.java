@@ -1,8 +1,6 @@
-package com.piano.vo;
+package com.piano.board;
 
 import lombok.Data;
-
-
 
 import java.sql.Timestamp;
 

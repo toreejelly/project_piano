@@ -1,10 +1,6 @@
-package com.piano.service;
+package com.piano.comment;
 
 import java.util.List;
-
-
-
-import com.piano.vo.CommentVO;
 
 public interface CommentService {
 
