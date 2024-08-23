@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 
-	//조회수 증가
+	// 조회수 증가
 	$(document).ready(function()  {	
 		let boardSeq = $("#boardSeq").val(); 
 		var data = {
@@ -36,8 +36,6 @@
 				console.log('조회수 증가 실패');
 			}
 		})//ajax end	
-		
-		
 	});
 
 	//삭제
@@ -75,71 +73,69 @@
 		}//if end
 	}//contentDetele() end
 	
-//댓글
-
+	//댓글
 	function showReplyForm(action, commentSeq) {
-	
-	// 클릭 버튼 가져오기
+		// 클릭 버튼 가져오기
 
-	let button = event.target;
-	//let replyFormContainer = $(button).closest(".media-body").find(".reply-form-container");
+		let button = event.target;
+		//let replyFormContainer = $(button).closest(".media-body").find(".reply-form-container");
 
-	// 모든 reply-form-container에서 reply-form 제거
-	//$(".reply-form-container").empty();
-	
-	//data-level값 가져오기
-	let parentComment = $(button).closest('.media-block');
-	let parentLevel = parseInt(parentComment.find('.media-level').attr('data-level'), 10);
-	console.log("parentLevel :" , parentLevel);
-	
-	// 대댓글 입력 폼 컨테이너 찾기
-	let replyFormContainer = parentComment.find('.reply-form-container').first();
-	
-	// 클릭된 댓글의 다른 모든 reply-form-container에서 reply-form 제거
-	parentComment.find('.reply-form-container').not(replyFormContainer).empty();
-	
-	// 대댓글 입력 창이 이미 있는 경우 제거, 그렇지 않으면 생성 후 .reply-form 클래스를 가진 요소를 찾아 추가
-		if (replyFormContainer.find('.reply-form').length > 0) {
-			replyFormContainer.empty(); // 이미 있는 대댓글 입력 창이 있는 경우, 제거
-		} else {
-			// 다른 대댓글 입력 창이 이미 있는 경우도 제거
-			parentComment.find('.reply-form').remove(); 
+		// 모든 reply-form-container에서 reply-form 제거
+		//$(".reply-form-container").empty();
+		
+		//data-level값 가져오기
+		let parentComment = $(button).closest('.media-block');
+		let parentLevel = parseInt(parentComment.find('.media-level').attr('data-level'), 10);
+		console.log("parentLevel :" , parentLevel);
+		
+		// 대댓글 입력 폼 컨테이너 찾기
+		let replyFormContainer = parentComment.find('.reply-form-container').first();
+		
+		// 클릭된 댓글의 다른 모든 reply-form-container에서 reply-form 제거
+		parentComment.find('.reply-form-container').not(replyFormContainer).empty();
+		
+		// 대댓글 입력 창이 이미 있는 경우 제거, 그렇지 않으면 생성 후 .reply-form 클래스를 가진 요소를 찾아 추가
+			if (replyFormContainer.find('.reply-form').length > 0) {
+				replyFormContainer.empty(); // 이미 있는 대댓글 입력 창이 있는 경우, 제거
+			} else {
+				// 다른 대댓글 입력 창이 이미 있는 경우도 제거
+				parentComment.find('.reply-form').remove(); 
 
-			// 템플릿 클론 생성(commentFormTemplate 복제)
-			let template = document.getElementById('commentFormTemplate').content.cloneNode(true);
-			let form = $(template).find('.reply-form');
+				// 템플릿 클론 생성(commentFormTemplate 복제)
+				let template = document.getElementById('commentFormTemplate').content.cloneNode(true);
+				let form = $(template).find('.reply-form');
 
-			// 부모 댓글의 레벨 가져오기 및 새 레벨 설정
-			let newLevel = parentLevel + 1;
-			console.log("newLevel :" , newLevel);
-	
-			// 폼을 해당 컨테이너에 추가
-			replyFormContainer.append(form);
-			//들여쓰기 하기
-			
-			replyFormContainer.css('--level', newLevel);
-		}
+				// 부모 댓글의 레벨 가져오기 및 새 레벨 설정
+				let newLevel = parentLevel + 1;
+				console.log("newLevel :" , newLevel);
+		
+				// 폼을 해당 컨테이너에 추가
+				replyFormContainer.append(form);
+				//들여쓰기 하기
+				
+				replyFormContainer.css('--level', newLevel);
+			}
 
-		// 수정 모드인 경우
-		if (action === 'modify') {
-			// 수정할 댓글 내용 가져오기
-			let commentText = $(button).closest('.media-block').find('.comment-text').text().trim();
-			console.log(commentText);
+			// 수정 모드인 경우
+			if (action === 'modify') {
+				// 수정할 댓글 내용 가져오기
+				let commentText = $(button).closest('.media-block').find('.comment-text').text().trim();
+				console.log(commentText);
 
-			// 수정 폼에서 댓글 내용 설정
-			replyFormContainer.find('.comment-textarea').val(commentText);
+				// 수정 폼에서 댓글 내용 설정
+				replyFormContainer.find('.comment-textarea').val(commentText);
 
-			// 수정 폼에서 '작성' 버튼 대신 '수정'과 '취소' 버튼 보이도록 설정
-			replyFormContainer.find('#commentModifyBtn').show();
-			replyFormContainer.find('#commentCancleBtn').show();			
-			replyFormContainer.find('#replySubmitBtn').hide();
-		} else {
-			// 대댓글 작성 모드로 처리
-			replyFormContainer.find('#replySubmitBtn').show();
-			replyFormContainer.find('#commentCancleBtn').show();
-			replyFormContainer.find('#commentModifyBtn').hide();
-		}
-	}//showReplyForm()end
+				// 수정 폼에서 '작성' 버튼 대신 '수정'과 '취소' 버튼 보이도록 설정
+				replyFormContainer.find('#commentModifyBtn').show();
+				replyFormContainer.find('#commentCancleBtn').show();			
+				replyFormContainer.find('#replySubmitBtn').hide();
+			} else {
+				// 대댓글 작성 모드로 처리
+				replyFormContainer.find('#replySubmitBtn').show();
+				replyFormContainer.find('#commentCancleBtn').show();
+				replyFormContainer.find('#commentModifyBtn').hide();
+			}
+		}//showReplyForm()end
 
 	function cancelComment(){
 		$(event.target).closest('.reply-form').remove();
@@ -308,7 +304,6 @@
 		});
 	}//modifyComment()end
 
-	
 	//댓글 삭제
 	function deleteComment(commentSeq){
 		console.log(commentSeq);	
@@ -338,17 +333,18 @@
 	}//deleteComment()end
 
 </script>
-
-
 </head>
-<body>
 
+<body>
+	
 	<div class="container">
 		<br />
 		<h2>글</h2>
 		<br /> 
+
 		<input type="hidden" id="boardSeq" value="${content.boardSeq}">
 		<input type="hidden" name="delYn" id="delYn" value="">
+
 		<table class="table table-bordered">
 			<tr>
 				<td>번호</td>
@@ -364,84 +360,46 @@
 			</tr>
 			<tr>
 				<td>제목</td>
-				<td><input id="boardTitle" value="${content.boardTitle}"
-					disabled style="width: 100%;"></td>
+				<td>
+					<input id="boardTitle" value="${content.boardTitle}" disabled style="width: 100%;">
+				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea rows="10" id="boardText" disabled
-						style="width: 100%;">${content.boardText}</textarea></td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button type="button" class="btn btn-success"
-						onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
-					<button type="button" class="btn btn-warning"
-						onclick="location.href='/contentModifyForm/${content.boardSeq}'">수정</button>&nbsp;&nbsp;
-					<button type="button" class="btn btn-danger"
-						onclick="contentDetele()">삭제</button>
+				<td>
+					<textarea rows="10" id="boardText" disabled style="width: 100%;">${content.boardText}</textarea>
 				</td>
 			</tr>
-
+			<tr>
+				<td colspan="2" style="text-align: right;">
+					<button type="button" class="btn btn-success" onclick="location.href='/list'">목록보기</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-warning" onclick="location.href='/contentModifyForm/${content.boardSeq}'">수정</button>&nbsp;&nbsp;
+					<button type="button" class="btn btn-danger" onclick="contentDetele()">삭제</button>
+				</td>
+			</tr>
 		</table>
 	</div>
-<!-- 댓글 영역 -->
 
-<!-- 댓글 템플릿 -->	
+<!-- 댓글 영역 -->
+	<!-- 댓글 템플릿 -->	
 	<div class="container bootdey">
 		<div class="col-md-12 bootstrap snippets">			
 			<div class="panel">
 				<div class="panel-body">
 					<p class="text-muted text-sm">닉네임</p>
-					<textarea id="commentText" class="form-control comment-textarea"
-						rows="2" placeholder="댓글을 작성해주세요"></textarea>
-					<div class="mar-top clearfix">
-						<button id="commentSubmitBtn"
-								class="btn btn-sm btn-primary pull-right" type="button"
-								onclick="commentWrite()">
-								<i class="fa fa-pencil fa-fw"></i>작성
-						</button>														
+					<textarea id="commentText" class="form-control comment-textarea" rows="2" placeholder="댓글을 작성해주세요."></textarea>
+					<div class="mar-top clearfix" style="text-align: right; padding-top: 6px;">
+						<button id="commentSubmitBtn" class="btn btn-sm btn-primary pull-right" type="button" onclick="commentWrite()">작성</button>
+								<!--<i class="fa fa-pencil fa-fw"></i>작성-->														
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
-	<div class="container bootdey">
+	<!-- 댓글 목록 -->
+	<div class="container bootdey"><!-- TODO: container의 의미를 생각해보기  -->
 		<div class="col-md-12 bootstrap snippets">
-			<!-- 대댓글 / 수정 템플릿 -->
-			<template id="commentFormTemplate">
-				<div class="panel reply-form">
-					<div class="panel-body">
-						<p class="text-muted text-sm">닉네임</p>
-						<textarea id="replyText" class="form-control comment-textarea"
-							rows="2" placeholder="댓글을 작성해주세요"></textarea>
-
-						<div class="mar-top clearfix">							
-							<button id="replySubmitBtn"
-								class="btn btn-sm btn-primary pull-right" type="button"
-								onclick="writeReply(event)">
-								<i class="fa fa-pencil fa-fw"></i>작성
-							</button>
-							<!-- 댓글 수성 취소 버튼 -->
-							<button id="commentCancleBtn"
-								class="btn btn-sm btn-primary pull-right" type="button"
-								onclick="cancelComment()">
-								<i class="fa fa-pencil fa-fw"></i>취소
-							</button>
-							<!-- 댓글 수정 버튼 -->
-							<button id="commentModifyBtn"
-								class="btn btn-sm btn-primary pull-right" type="button"
-								onclick="modifyComment()">
-								<i class="fa fa-pencil fa-fw"></i>수정
-							</button>
-						</div>
-					</div>
-				</div>
-			</template>
-
-			<!-- 댓글 목록 -->
 			<div id="commentListTemplate">
 				<c:if test="${not empty commentList}">
 					<div class="panel" id="replylist">
@@ -451,7 +409,8 @@
 								<div class="media-block" data-comment-seq="${comment.commentSeq}">
 									<a class="media-left" href="#"></a>
 									<div class="media-body">
-										<div class="media-level" data-level="${comment.level}">	
+										<!-- TODO: 패딩을 주어서 레벨에 맞추어 안으로 들어가도록 함 -->
+										<div class="media-level" data-level="${comment.level}" style="padding-left: ${comment.level * 50}px;">	
 											<div class="mar-btm">											
 												<p class="text-muted text-sm">닉네임</p>
 												<p class="text-muted text-sm">${comment.regDt}</p>
@@ -466,11 +425,11 @@
 													<a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
 												</div>
 													<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm()">댓글</a> 
-													<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm('modify', ${comment.commentSeq})">수정</a>
-													<a class="btn btn-sm btn-default btn-hover-primary" onclick="deleteComment(${comment.commentSeq})">삭제</a>
+													<a class="btn btn-sm btn-default btn-hover-primary" onclick="showReplyForm('modify', '${comment.commentSeq}')">수정</a><!-- TODO: 여기 $에 '' 넣었음 -->
+													<a class="btn btn-sm btn-default btn-hover-primary" onclick="deleteComment('${comment.commentSeq}')">삭제</a>
 											</div>
 										</div>	
-										<hr>
+										<!--<hr>-->
 										<!-- 부모 댓글 아래에 대댓글 / 수정 입력 폼을 추가  -->
 										<div class="reply-form-container"></div>
 										<!-- 부모 댓글 아래에 대댓글 목록을 표시 -->
@@ -483,8 +442,33 @@
 					</div>
 				</c:if>
 			</div>
-			<!-- 댓글 목록 끝 -->
 		</div>
 	</div>
+	<!-- 댓글 목록 끝 -->
+
+	<!-- 대댓글 / 수정 템플릿 -->
+	<template id="commentFormTemplate">
+		<div class="panel reply-form">
+			<div class="panel-body">
+				<p class="text-muted text-sm">닉네임</p>			
+				<textarea id="replyText" class="form-control comment-textarea" rows="2" placeholder="댓글을 작성해주세요"></textarea>
+
+				<div class="mar-top clearfix">							
+					<button id="replySubmitBtn" class="btn btn-sm btn-primary pull-right" type="button" onclick="writeReply(event)">
+						작성
+					</button>
+					<!-- 댓글 수성 취소 버튼 -->
+					<button id="commentCancleBtn" class="btn btn-sm btn-primary pull-right" type="button" onclick=`1"cancelComment()">
+						취소
+					</button>
+					<!-- 댓글 수정 버튼 -->
+					<button id="commentModifyBtn" class="btn btn-sm btn-primary pull-right" type="button" onclick="modifyComment()">
+						수정
+					</button>
+				</div>
+			</div>
+		</div>
+	</template>
+
 </body>
 </html>

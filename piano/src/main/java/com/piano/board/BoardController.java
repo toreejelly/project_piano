@@ -120,7 +120,6 @@ public class BoardController {
 	public ResponseEntity<String> boardView(@RequestBody BoardVO boardVO){
 		log.info("BoardController boardView()");
 		
-		
 		ResponseEntity<String> entity = null;
 		
 		try {
