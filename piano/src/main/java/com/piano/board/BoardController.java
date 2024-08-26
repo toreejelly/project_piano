@@ -2,14 +2,12 @@ package com.piano.board;
 
 import java.util.List;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+//import ch.qos.logback.core.model.Model;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,14 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 import com.piano.comment.CommentService;
 import com.piano.comment.CommentVO;
-
-//import ch.qos.logback.core.model.Model;
-import org.springframework.ui.Model;
-
 
 //import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;   
@@ -139,11 +131,12 @@ public class BoardController {
 	// 글 조회
 	@GetMapping("/board/{boardSeq}")
 	public String contentViewForm(Model model, @PathVariable("boardSeq") long boardSeq) {
+		log.info("BoardController contentViewForm()"); // TODO: 용도 알려주기
+
 		// 게시글 내용 조회
 		BoardVO board = boardService.getContent(boardSeq);
 		model.addAttribute("content", board);
-		log.info("BoardController contentViewForm()");
-		log.info("board :" + board);
+		log.info("board :" + board); // TODO: 용도 알려주기
 		
 		// 댓글 목록 조회
 		// service로 가저오는 방법
@@ -202,9 +195,21 @@ public class BoardController {
 		//String delYn = boardVO.getDelYn();
 	
 		try {
-			boardService.contentModiAndDel(boardVO);
+
+			// TODO: insert, update, delete는 실제로 결과 값이 있을 때 SUCCESS 를 넘기는 것도 가능함, 원래 코드와 변경된 코드 확인
+			int result = boardService.contentModiAndDel(boardVO);
+			log.info("update result : " + result);
 			
-			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			if (result > 0) { // 결과가 있을 때
+				entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			} else {
+				// TODO: 디버그 걸어서 확인하기
+				entity = new ResponseEntity<String>("삭제되지 않았습니다.", HttpStatus.BAD_REQUEST);
+			}
+			
+			// 원래 소스
+			// boardService.contentModiAndDel(boardVO);
+			// entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 						
 		}catch(Exception e) {
 			e.printStackTrace();

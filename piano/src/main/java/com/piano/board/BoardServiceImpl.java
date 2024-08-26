@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -43,8 +44,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	//글 수정 삭제
 	@Override
-	public void contentModiAndDel(BoardVO boardVO) {
-		mapper.contentModiAndDel(boardVO);
+	public int contentModiAndDel(BoardVO boardVO) {
+		return mapper.contentModiAndDel(boardVO);
 	}
 	
 	//조회수 증가

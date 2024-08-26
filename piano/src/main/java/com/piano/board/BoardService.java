@@ -18,7 +18,7 @@ public interface BoardService {
 	public BoardVO getContent(long boardSeq);
 	
 	//글 수정 삭제
-	public void contentModiAndDel(BoardVO boardVO);
+	public int contentModiAndDel(BoardVO boardVO);
 	
 	//조회수 증가
 	public void boardView(BoardVO boardVO);

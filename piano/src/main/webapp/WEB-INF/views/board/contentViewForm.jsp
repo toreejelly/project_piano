@@ -9,20 +9,21 @@
 
 <script type="text/javascript">
 
+	//TODO: 작성한 사람만 수정, 삭제 버튼 보이도록 하기
+	
 	// ****************************************************************************************
 	// 초기화
 	// ****************************************************************************************
-	
 
 	// 조회수 증가
-	$(document).ready(function()  {	
+	$(document).ready(function() {	
 		//조회수 증가
 		let boardSeq = $("#boardSeq").val(); 
 		var data = {
-			boardSeq : boardSeq	
-			,boardViewCount : true
+			boardSeq: boardSeq	
+			,boardViewCount: true
 		};
-		
+
 		$.ajax({
 			type: "POST"
 			,url: "/board/" + boardSeq // TODO: 조회1. RESTFULL 을 위해서 같은 url 사용하는 것이므로 조회 증가하는 것은 다른 url을 사용해보기
@@ -44,16 +45,16 @@
 	});
 
 
-	
+
 	// ****************************************************************************************
 	// 함수
 	// ****************************************************************************************	
 
 	//삭제
-	function contentDetele() {
+	function contentDetele() { // TODO: deleteContent 가 더 좋을 것 같음 
 		if(confirm("삭제하시겠습니까?")){
 			let boardSeq = $("#boardSeq").val(); 
-			let delYn ="Y";
+			let delYn = "Y";
 			
 			var data = {
 				 boardSeq : boardSeq
@@ -64,9 +65,9 @@
 		
 			// console.log("data", data);
 			
-			$.ajax({
+			$.ajax({ // TODO: A: , A : 둘 중 어느 것을 사용할 지 정하기 
 				 type : "DELETE"
-				,url : "/board/"+boardSeq
+				,url : "/board/" + boardSeq
 				,cache : false
 				,contentType : 'application/json; charset=utf-8'
 				,data : JSON.stringify(data)
@@ -74,7 +75,10 @@
 					if (result == "SUCCESS") {
 						alert("삭제되었습니다.");
 						location.href = "/list";
-					}
+						
+					} else { // TODO: if 를 사용할 때에는 항상 else 도 생각을 해볼 필요성이 있음
+						alert(result); 
+					} 
 				}
 				,error : function(e) {
 					alert("삭제 실패했습니다.");
@@ -84,7 +88,7 @@
 		}//if end
 	}//contentDetele() end
 	
-	//댓글
+	//댓글 +++ 임시 확인중
 	function showReplyForm(action, commentSeq) {
 		// 클릭 버튼 가져오기
 		let button = event.target;
@@ -298,7 +302,6 @@
 	function changeLevel(){
 		
 	}
-
 
 	//댓글 수정
 	function modifyComment() {

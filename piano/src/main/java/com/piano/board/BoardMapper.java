@@ -2,7 +2,6 @@ package com.piano.board;
 
 import java.util.List;
 
-
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -21,7 +20,7 @@ public interface BoardMapper {
 	public int boardSeq();
 		
 	//글 수정 삭제 조회수증가
-	public void contentModiAndDel(BoardVO boardVO);
+	public int contentModiAndDel(BoardVO boardVO);
 		
 
 }

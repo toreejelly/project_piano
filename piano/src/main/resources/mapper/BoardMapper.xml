@@ -66,7 +66,7 @@
 			,BOARD_TEXT = #{boardText}
 			</if>
 			<if test='delYn != null and delYn != ""'>
-			,DEL_YN = 'Y'<!-- TODO: 조회3. 위와 같이 #{boardText} 값을 받아서 사용하는 것이 좋음, 이렇게 되면 delYn 에 값을 N이라고 넘겨도 Y 밖에 들어가지 않음 -->
+			,DEL_YN = 'Y'<!-- TODO: 조회3. 위와 같이 #{boardText} 값을 받아서 사용하기, 이렇게 되면 delYn 에 값을 N이라고 넘겨도 Y 밖에 들어가지 않음 -->
 			</if>
 			<if test= 'boardViewCount="true"'>
 			,BOARD_VIEW = board_View + 1
