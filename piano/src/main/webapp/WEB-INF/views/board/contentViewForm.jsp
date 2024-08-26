@@ -9,8 +9,14 @@
 
 <script type="text/javascript">
 
+	// ****************************************************************************************
+	// 초기화
+	// ****************************************************************************************
+	
+
 	// 조회수 증가
 	$(document).ready(function()  {	
+		//조회수 증가
 		let boardSeq = $("#boardSeq").val(); 
 		var data = {
 			boardSeq : boardSeq	
@@ -18,18 +24,17 @@
 		};
 		
 		$.ajax({
-			 type : "POST"
-			,url : "/board/"+boardSeq
-			,cache : false
-			,contentType : 'application/json; charset=utf-8'
-			,data : JSON.stringify(data)
-			,success : function(result) {
+			type: "POST"
+			,url: "/board/" + boardSeq // TODO: 조회1. RESTFULL 을 위해서 같은 url 사용하는 것이므로 조회 증가하는 것은 다른 url을 사용해보기
+			,cache: false
+			,contentType: 'application/json; charset=utf-8'
+			,data: JSON.stringify(data)
+			,success: function(result) {
 				if (result == "SUCCESS") {
 					console.log('조회수 증가 성공');
 					var curentView = parseInt($("#view").text());
 					console.log("curentView" , curentView);
 					$("#view").text(curentView + 1);
-				
 				}
 			}
 			,error : function(e) {
@@ -37,6 +42,12 @@
 			}
 		})//ajax end	
 	});
+
+
+	
+	// ****************************************************************************************
+	// 함수
+	// ****************************************************************************************	
 
 	//삭제
 	function contentDetele() {
@@ -76,7 +87,6 @@
 	//댓글
 	function showReplyForm(action, commentSeq) {
 		// 클릭 버튼 가져오기
-
 		let button = event.target;
 		//let replyFormContainer = $(button).closest(".media-body").find(".reply-form-container");
 
@@ -95,6 +105,28 @@
 		parentComment.find('.reply-form-container').not(replyFormContainer).empty();
 		
 		// 대댓글 입력 창이 이미 있는 경우 제거, 그렇지 않으면 생성 후 .reply-form 클래스를 가진 요소를 찾아 추가
+
+		if (replyFormContainer.find('.reply-form').length > 0) {
+			replyFormContainer.empty(); // 이미 있는 대댓글 입력 창이 있는 경우, 제거
+		} else {
+			// 다른 대댓글 입력 창이 이미 있는 경우도 제거
+			parentComment.find('.reply-form').remove(); 
+
+			// 템플릿 클론 생성(commentFormTemplate 복제)
+			let template = document.getElementById('commentFormTemplate').content.cloneNode(true);
+			let form = $(template).find('.reply-form');
+
+			// 부모 댓글의 레벨 가져오기 및 새 레벨 설정
+			let newLevel = parentLevel + 1;
+			console.log("newLevel :" , newLevel);
+	
+			// 폼을 해당 컨테이너에 추가
+			replyFormContainer.append(form);
+			//들여쓰기 하기
+			
+			replyFormContainer.css('--level', newLevel);
+		}
+
 			if (replyFormContainer.find('.reply-form').length > 0) {
 				replyFormContainer.empty(); // 이미 있는 대댓글 입력 창이 있는 경우, 제거
 			} else {

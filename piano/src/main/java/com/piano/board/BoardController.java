@@ -134,10 +134,7 @@ public class BoardController {
 		}
 		
 		return entity;
-		
 	}
-	
-	
 	
 	// 글 조회
 	@GetMapping("/board/{boardSeq}")
