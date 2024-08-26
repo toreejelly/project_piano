@@ -120,7 +120,6 @@ public class BoardController {
 	public ResponseEntity<String> boardView(@RequestBody BoardVO boardVO){
 		log.info("BoardController boardView()");
 		
-		
 		ResponseEntity<String> entity = null;
 		
 		try {
@@ -135,10 +134,7 @@ public class BoardController {
 		}
 		
 		return entity;
-		
 	}
-	
-	
 	
 	// 글 조회
 	@GetMapping("/board/{boardSeq}")

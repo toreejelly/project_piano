@@ -56,24 +56,23 @@
 			BOARD
 	</select> 
 
-	<!-- 글 수정 삭제 조회수 증가-->
+	<!-- 글 수정 삭제 조회수 증가--><!-- TODO: 조회2. update 문의 아이디는 보통 updateBoard 이렇게 update + 테이블 명이 되는 것이 좋음 -->
 	<update id="contentModiAndDel" parameterType="com.piano.board.BoardVO"> 
 		UPDATE BOARD
 		<trim prefix="SET" prefixOverrides=",">
 			<if test='boardTitle != null and boardTitle != ""'>
 			,BOARD_TITLE = #{boardTitle}
-			,BOARD_TEXT = #{boardText} 	
+			<!-- TODO: 개별적으로 나눠져 있어야 함. 지금 상태라면 boardText 값이 없을 때에도 업데이트가 됨 -->
+			,BOARD_TEXT = #{boardText}
 			</if>
 			<if test='delYn != null and delYn != ""'>
-			,DEL_YN = 'Y'	
+			,DEL_YN = 'Y'<!-- TODO: 조회3. 위와 같이 #{boardText} 값을 받아서 사용하는 것이 좋음, 이렇게 되면 delYn 에 값을 N이라고 넘겨도 Y 밖에 들어가지 않음 -->
 			</if>
 			<if test= 'boardViewCount="true"'>
-			,BOARD_VIEW = board_View+1
+			,BOARD_VIEW = board_View + 1
 			</if>
 		</trim>
 		WHERE BOARD_SEQ = #{boardSeq} 	
 	</update> 
-	
-	
-	
+
 </mapper>	
